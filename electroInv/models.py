@@ -1,24 +1,28 @@
 from django.db import models
-
+from chucho.models import ChuchoManager, ChuchoUserManager
 
 class Manufacture(models.Model):
     name = models.CharField(max_length=100)
     website = models.CharField(max_length=100,blank=True,null=True)
     contact = models.CharField(max_length=100,blank=True,null=True)
+    objects = ChuchoManager()
 
 class Vendor(models.Model):
     name = models.CharField(max_length=100)
     website = models.CharField(max_length=100,blank=True,null=True)
     contact = models.CharField(max_length=100,blank=True,null=True)
-
+    objects = ChuchoManager()
 
 class Type(models.Model):
     name = models.CharField(max_length=100)
     reference = models.CharField(max_length=100)
+    objects = ChuchoManager()
 
 class Package(models.Model):
     name = models.CharField(max_length=100)
     library = models.CharField(max_length=100,blank=True,null=True)
+    objects = ChuchoManager()
+
 
 class Part(models.Model):
     manufactureNumber = models.CharField(max_length=100,blank=True,null=True)
@@ -34,6 +38,7 @@ class Part(models.Model):
     price = models.FloatField(default=0)
     created = models.DateTimeField(auto_now_add=True)
     lastUpdate = models.DateTimeField(auto_now=True)
+    objects = ChuchoManager()
 
 class Log(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
@@ -44,5 +49,5 @@ class Log(models.Model):
     vendor = models.CharField(max_length=100,blank=True,null=True)
     invoice = models.CharField(max_length=100,blank=True,null=True)
     price = models.FloatField()
-    
+    objects = ChuchoManager()
 

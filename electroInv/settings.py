@@ -11,6 +11,20 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+def GET_PERMISSION_OBJ():
+    '''
+    ' This function should be modified to return the object that is used to verify permissions in the
+    ' object managers.  This is required for the chucho interface.
+    '''
+    from django.contrib.auth import get_user_model
+    return get_user_model()
+
+#Global time format for datetime objects
+DT_FORMAT = "%m/%d/%Y %H:%M:%S"
+D_FORMAT = "%m/%d/%Y"
+
+
+SESSION_TIMEOUT = 7200
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.

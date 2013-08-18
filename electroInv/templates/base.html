@@ -1,0 +1,31 @@
+{% load url from future %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.10.1.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/jquery.tmpl.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/jquery-ui-1.10.1.custom.min.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/jquery-ui-timepicker-addon.js"></script>
+        
+        <script type="text/javascript" src="{{STATIC_URL}}js/knockout-2.2.1.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/chucho.grid.js"></script>
+
+        <script type="text/javascript" src="{{STATIC_URL}}js/spin.min.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/chucho.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/bootstrap-responsive.css">
+        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/smoothness/jquery-ui-1.10.1.custom.min.css">
+        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/grid.css">
+    </head>
+    <body>
+        
+        {% if user %}
+            <span>Hello {{user.first_name}} {{user.last_name}} (<a href='/logout/'>Log Out</a>)</span>
+        {% endif %}
+
+        {% block content %} {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <ul>
+        <li>
+            <a href="#" id="manage_parts" class="clickable_text"
+                  onclick="loadModelGrid('electroInv', 'Part');">
+                  Manage Parts
+            </a>
+        </li>
+        <li>
+            <a href="#" d="manage_vendor" class="clickable_text"
+                  onclick="loadModelGrid('electroInv', 'Vendor');">
+                  Manage Vendors
+            </a>
+        </li>
+        <li>
+            <a href="#" d="manage_info" class="clickable_text"
+                  onclick="loadModelGrid('electroInv', 'Type');">
+                  Manage Part Types
+            </a>
+        </li>
+        <li>
+            <a href="#" d="manage_info" class="clickable_text"
+                  onclick="loadModelGrid('electroInv', 'Manufacture');">
+                  Manage Manufacture
+            </a>
+        </li>
+    </ul>
+    <div id="chuchoGridContainer"></div>
+
+{% endblock %}
