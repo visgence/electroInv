@@ -21,7 +21,7 @@ def index(request):
    
     response = check_access(request)
     if response is None:
-        return HttpResponseRedirect('/login-page/')
+        return HttpResponseRedirect('/electroInv/login-page/')
     
     t = loader.get_template('index.html')
     c = RequestContext(request, {})
