@@ -79,15 +79,29 @@ class Part(models.Model):
         return self.part_number
 
     def save(self, *args, **kwargs):
+        
+        log = True
+        if 'no_log' in kwargs and kwargs['no_log'] == True:
+            log = False
 
         action = "Added New Part"
-        
+        qty = 0
+
+        if self.qty is not None:
+            qty = int(self.qty)
+
         if self.id is not None:
             action = "Modified Part"
+            if qty !=0:
+                #Get the qty before the modifiy and save the difference
+                p = Part.objects.get(id=self.id)
+                qty = qty - p.qty 
 
         super(Part, self).save(*args, **kwargs)
-        l = Log(part=self,action=action)
-        l.save()
+       
+        if log:
+            l = Log(part=self,action=action,qty=qty)
+            l.save()
 
 class Log(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
