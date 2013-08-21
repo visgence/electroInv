@@ -64,7 +64,7 @@ class Part(models.Model):
     package = models.ForeignKey('Package',blank=True,null=True)
     location = models.CharField(max_length=100,blank=True,null=True)
     vendor = models.ForeignKey('Vendor',blank=True,null=True)
-    vendor_number = models.CharField(max_length=100,blank=True,null=True)
+    vendor_sku = models.CharField(max_length=100,blank=True,null=True)
     qty = models.IntegerField(default=0) #Set default to 0
     price = models.FloatField(default=0)
     created = models.DateTimeField(auto_now_add=True)
