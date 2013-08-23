@@ -10,22 +10,75 @@
         <script type="text/javascript" src="{{STATIC_URL}}js/jquery-ui-timepicker-addon.js"></script>
         
         <script type="text/javascript" src="{{STATIC_URL}}js/knockout-2.2.1.js"></script>
-        <script type="text/javascript" src="{{STATIC_URL}}js/chucho.grid.js"></script>
 
-        <script type="text/javascript" src="{{STATIC_URL}}js/spin.min.js"></script>
-        <script type="text/javascript" src="{{STATIC_URL}}js/chucho.js"></script>
-
-        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/bootstrap-responsive.css">
-        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/bootstrap.css">
+        <script type="text/javascript" src="{{STATIC_URL}}js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/smoothness/jquery-ui-1.10.1.custom.min.css">
-        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/grid.css">
+
+        {% block additionalHeaders %}{% endblock %}
     </head>
     <body>
-        
-        {% if user %}
-            <span>Hello {{user.first_name}} {{user.last_name}} (<a href='/electroInv/logout/'>Log Out</a>)</span>
-        {% endif %}
+       
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" 
+                        data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle Navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'index' %}" style="padding-bottom: 0;">
+                    <img src="/static/imgs/electroninv_logo.png" height="30px" width="200px"/>
+                </a>
+            </div>
 
-        {% block content %} {% endblock %}
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+
+                {% if user.is_authenticated %}
+
+                    <li><a onclick="loadModelGrid('electroInv', 'Part');">Parts</a></li>
+                    <li><a onclick="loadModelGrid('electroInv', 'Vendor');">Vendors</a></li>
+                    <li><a onclick="loadModelGrid('electroInv', 'Type');">Part Types</a></li>
+                    <li><a onclick="loadModelGrid('electroInv', 'Manufacture');">Manufacture</a></li>
+                    <li><a onclick="loadModelGrid('electroInv', 'Package');">Packages</a></li>
+                    <li><a onclick="loadModelGrid('electroInv', 'Log');">Log</a></li>
+                </ul>
+                    <p class="navbar-text navbar-right" id="greeting">
+                        Hello, {{user.first_name}} {{user.last_name}}
+                        [<a href="{% url 'logout' %}">logout</a>]
+                    </>
+                {%else%}
+                </ul>
+                    <form action="{% url 'login'  %}" method="POST" class="navbar-form navbar-right">
+                        {% csrf_token %}
+                        <div class="form-group has-error">
+                            <label class="error-text control-label">{{error}}</label>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Username" name="username">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="password" placeholder="Password" name="password">
+                        </div>
+                        <button type="submit" class="btn btn-default">Sign in</button>
+                    </form>
+                {%endif%}
+            </div>
+        </nav>
+
+        <div class="container">
+            {% block content %} {% endblock %}
+        </div>
+
+        <script>
+            $(function() {
+                $('ul.navbar-nav').on('click', 'li', function() {
+                    $(this).siblings('li').removeClass('active');
+                    $(this).addClass('active');
+                });
+            });
+        </script>
     </body>
 </html>
