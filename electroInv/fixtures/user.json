@@ -1,0 +1,20 @@
+[
+{
+    "pk": 1, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "admin@visgence.com", 
+        "first_name": "Admin", 
+        "last_name": "User", 
+        "is_active": true, 
+        "is_superuser": true, 
+        "is_staff": true, 
+        "last_login": "2013-08-23T00:53:30.063Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$10000$I6Q3FJRJ5ucb$pbNRa0223toeM/hRo+48Gs5Vv+Q6Qjfxy4vPLZ4ehwQ=", 
+        "email": "admin@visgence.com", 
+        "date_joined": "2013-08-22T23:18:04.548Z"
+    }
+}
+]
