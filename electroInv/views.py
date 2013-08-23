@@ -57,7 +57,6 @@ def login(request):
         else:
             error = "Invalid login";
 
-    request.user = None
     t = loader.get_template('login.html');
     c = RequestContext(request, {'error':error})
     return HttpResponse(t.render(c))
