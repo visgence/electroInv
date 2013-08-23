@@ -1,44 +1,14 @@
 {% extends "base.html" %}
 
-{% block content %}
-    <ul>
-        <li>
-            <a href="#" id="manage_parts" class="clickable_text"
-                  onclick="loadModelGrid('electroInv', 'Part');">
-                  Manage Parts
-            </a>
-        </li>
-        <li>
-            <a href="#" d="manage_vendor" class="clickable_text"
-                  onclick="loadModelGrid('electroInv', 'Vendor');">
-                  Manage Vendors
-            </a>
-        </li>
-        <li>
-            <a href="#" d="manage_type" class="clickable_text"
-                  onclick="loadModelGrid('electroInv', 'Type');">
-                  Manage Part Types
-            </a>
-        </li>
-        <li>
-            <a href="#" d="manage_manufacture" class="clickable_text"
-                  onclick="loadModelGrid('electroInv', 'Manufacture');">
-                  Manage Manufacture
-            </a>
-        </li>
-        <li>
-            <a href="#" d="manage_package" class="clickable_text"
-                  onclick="loadModelGrid('electroInv', 'Package');">
-                  Manage Packages
-            </a>
-        </li>
-        <li>
-            <a href="#" d="manage_log" class="clickable_text"
-                  onclick="loadModelGrid('electroInv', 'Log');">
-                  Manage Log
-            </a>
-        </li>
-    </ul>
-    <div id="chuchoGridContainer"></div>
+{% block additionalHeaders %}
 
+    <script type="text/javascript" src="{{STATIC_URL}}js/spin.min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/chucho.grid.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/chucho.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/grid.css">
+
+{% endblock additionalHeaders %}
+
+{% block content %}
+    <div id="chuchoGridContainer"></div>
 {% endblock %}
