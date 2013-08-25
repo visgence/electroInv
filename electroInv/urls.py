@@ -5,5 +5,6 @@ urlpatterns = patterns(
     url(r'^$', 'index', name='index'),
     url(r'^login/$', 'login', name='login'),
     url(r'^logout/$', 'logout', name='logout'),
+    url(r'^digikey/$', 'digikey', name='digikey'),
     url(r'^login-page/$', 'login_page', name='login-page'),
     )

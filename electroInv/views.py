@@ -65,4 +65,14 @@ def logout(request):
     auth_logout(request)
     return HttpResponseRedirect("/")
 
+def digikey(request):
+
+    response = check_access(request)
+    if response is None:
+        return HttpResponseRedirect('/electroInv/login-page/')
+
+    t = loader.get_template('digikey.html')
+    c = RequestContext(request, {})
+    return HttpResponse(t.render(c))
+
 
