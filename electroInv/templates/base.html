@@ -14,6 +14,7 @@
         <script type="text/javascript" src="{{STATIC_URL}}js/bootstrap.min.js"></script>
         <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/smoothness/jquery-ui-1.10.1.custom.min.css">
+        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/electroInv.css">
 
         {% block additionalHeaders %}{% endblock %}
     </head>
@@ -38,12 +39,12 @@
 
                 {% if user.is_authenticated %}
 
-                    <li><a onclick="loadModelGrid('electroInv', 'Part');">Parts</a></li>
-                    <li><a onclick="loadModelGrid('electroInv', 'Vendor');">Vendors</a></li>
-                    <li><a onclick="loadModelGrid('electroInv', 'Type');">Part Types</a></li>
-                    <li><a onclick="loadModelGrid('electroInv', 'Manufacture');">Manufacture</a></li>
-                    <li><a onclick="loadModelGrid('electroInv', 'Package');">Packages</a></li>
-                    <li><a onclick="loadModelGrid('electroInv', 'Log');">Log</a></li>
+                    <li><a href="/electroInv/part/">Parts</a></li>
+                    <li><a href="/electroInv/vendor/">Vendors</a></li>
+                    <li><a href="/electroInv/type/">Part Types</a></li>
+                    <li><a href="/electroInv/manufacture">Manufacture</a></li>
+                    <li><a href="/electroInv/package">Packages</a></li>
+                    <li><a href="/electroInv/log">Log</a></li>
                     <li><a href="/electroInv/digikey">Digikey</a></li>
                 </ul>
                     <p class="navbar-text navbar-right" id="greeting">

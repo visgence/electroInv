@@ -17,6 +17,30 @@ def check_access(request):
         return None
 
 
+def part(request):
+	return chucho(request,'Part')
+def vendor(request):
+	return chucho(request,'Vendor')
+def type(request):
+	return chucho(request,'Type')
+def manufacture(request):
+	return chucho(request,'Manufacture')
+def package(request):
+	return chucho(request,'Package')
+def log(request):
+	return chucho(request,'Log')
+
+def chucho(request,model):
+   
+    response = check_access(request)
+    if response is None:
+        return HttpResponseRedirect('/electroInv/login-page/')
+    
+    t = loader.get_template('modelManage.html')
+    c = RequestContext(request, {'model':model})
+    return HttpResponse(t.render(c))
+
+
 def index(request):
    
     response = check_access(request)

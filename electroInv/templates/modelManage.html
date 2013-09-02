@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block additionalHeaders %}
+
+    <script type="text/javascript" src="{{STATIC_URL}}js/spin.min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/chucho.grid.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/chucho.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/grid.css">
+
+{% endblock additionalHeaders %}
+
+
+{% block content %}
+    <div id="chuchoGridContainer"></div>
+
+	<script>
+	$(function() {loadModelGrid('electroInv', '{{model}}');});
+	</script>
+{% endblock %}
