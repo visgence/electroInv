@@ -8,12 +8,36 @@
 
 {% block content %}
 
-    		<div class="container">
-			<h3>Import Digikey Invoice</h3>
-                        <center>
-    	                	<textarea id="csvinput" rows="20" cols="100"></textarea>
-				<br>
-				<div><button id="submit">Submit</button></div>      
-			</center>  
+    <div class="container">
+        <h3>Import Digikey Invoice</h3>
+        <center>
+            <textarea id="csvinput" rows="20" cols="100"></textarea>
+            <div><span id="digikey-msg"></span></div>
+            <div><button id="submit">Submit</button></div>      
+        </center>  
 	</div>
+    
+    {% csrf_token %}
+
+    <script>
+        $(function() {
+            $('#submit').on('click', function() {
+                jsonData = {
+                    'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
+                    'invoice': $('#csvinput').val()
+                };
+
+                $.post("{% url 'import-digikey' %}", jsonData, function(resp) {
+                    if(resp.hasOwnProperty('errors')) {
+                        $('#digikey-msg').text(resp.errors);
+                        return;
+                    }
+                
+                    $('#csvinput').val('');
+                    $('#digikey-msg').text(resp);
+                })
+            });
+        });
+    </script>
+
 {% endblock %}

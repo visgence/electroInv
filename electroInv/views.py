@@ -1,8 +1,19 @@
+
+#Local Imports
+from electroInv.utils import parseDigikeyCSV
+from electroInv.models import Part
+
 #System imports
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.core.exceptions import ValidationError
 from settings import SESSION_TIMEOUT
+
+try:
+    import simplejson as json
+except ImportError:
+    import json
 
 
 def check_access(request):
@@ -89,6 +100,7 @@ def logout(request):
     auth_logout(request)
     return HttpResponseRedirect("/")
 
+
 def digikey(request):
 
     response = check_access(request)
@@ -98,5 +110,30 @@ def digikey(request):
     t = loader.get_template('digikey.html')
     c = RequestContext(request, {})
     return HttpResponse(t.render(c))
+
+
+def importDigikey(request):
+    
+    response = check_access(request)
+    if response is None:
+        return HttpResponseRedirect('/electroInv/login-page/')
+
+    invoice = request.POST.get('invoice', None)
+    if invoice is None or invoice == '':
+        error = "You must provide a digikey invoice for importing"
+        return HttpResponse(json.dumps({'errors': [error]}), content_type="application/json")
+
+    errors = []
+    invoiceData = parseDigikeyCSV(invoice)
+    for data in invoiceData:
+        newPart = Part(price=data['price'], description=data['description'], vendor_sku=data['vendor_sku'], part_number="")
+
+        try:
+            newPart.full_clean()
+            newPart.save()
+        except ValidationError as e:
+            errors.append(str(e))
+
+    return HttpResponse(json.dumps("Success!"), content_type="application/json")
 
 
