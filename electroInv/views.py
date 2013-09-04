@@ -126,11 +126,19 @@ def importDigikey(request):
     errors = []
     invoiceData = parseDigikeyCSV(invoice)
     for data in invoiceData:
-        newPart = Part(price=data['price'], description=data['description'], vendor_sku=data['vendor_sku'], part_number="")
+        try:
+            part = Part.objects.get(vendor_sku = data['vendor_sku'])
+        except Part.DoesNotExist:
+            part = Part()
+            part.description=data['description']
+
+        part.price=data['price']
+        part.part_number=""
+        part.qty += 1
 
         try:
-            newPart.full_clean()
-            newPart.save()
+            part.full_clean()
+            part.save()
         except ValidationError as e:
             errors.append(str(e))
 
