@@ -1,7 +1,7 @@
 
 #Local Imports
 from electroInv.utils import parseDigikeyCSV
-from electroInv.models import Part
+from electroInv.models import Part, Vendor
 
 #System imports
 from django.http import HttpResponse, HttpResponseRedirect
@@ -125,6 +125,8 @@ def importDigikey(request):
 
     errors = []
     invoiceData = parseDigikeyCSV(invoice)
+
+    vendor = Vendor.objects.get(name="Digi-Key")
     for data in invoiceData:
         try:
             part = Part.objects.get(vendor_sku = data['vendor_sku'])
@@ -143,6 +145,8 @@ def importDigikey(request):
                 part.qty += value
             else:
                 setattr(part, field, value)
+
+        part.vendor = vendor
 
         try:
             part.full_clean()
