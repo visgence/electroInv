@@ -4,8 +4,8 @@ from chucho.models import ChuchoManager, ChuchoUserManager
 
 class Manufacture(models.Model):
     name = models.CharField(max_length=100)
-    website = models.CharField(max_length=100,blank=True,null=True)
-    contact = models.CharField(max_length=100,blank=True,null=True)
+    website = models.CharField(max_length=100,blank=True)
+    contact = models.CharField(max_length=100,blank=True)
     objects = ChuchoManager()
     def can_view(self, user):
         if not isinstance(user, get_user_model()):
@@ -18,8 +18,8 @@ class Manufacture(models.Model):
 
 class Vendor(models.Model):
     name = models.CharField(max_length=100)
-    website = models.CharField(max_length=100,blank=True,null=True)
-    contact = models.CharField(max_length=100,blank=True,null=True)
+    website = models.CharField(max_length=100,blank=True)
+    contact = models.CharField(max_length=100,blank=True)
     objects = ChuchoManager()
     def can_view(self, user):
         if not isinstance(user, get_user_model()):
@@ -45,7 +45,7 @@ class Type(models.Model):
 
 class Package(models.Model):
     name = models.CharField(max_length=100)
-    library = models.CharField(max_length=100,blank=True,null=True)
+    library = models.CharField(max_length=100,blank=True)
     objects = ChuchoManager()
     def can_view(self, user):
         if not isinstance(user, get_user_model()):
@@ -57,15 +57,15 @@ class Package(models.Model):
 
 
 class Part(models.Model):
-    part_number = models.CharField(max_length=100,blank=True,null=True)
-    description = models.CharField(max_length=100,blank=True,null=True)
-    value = models.CharField(max_length=100,blank=True,null=True)
+    part_number = models.CharField(max_length=100,blank=True)
+    description = models.CharField(max_length=100,blank=True)
+    value = models.CharField(max_length=100,blank=True)
     manufacture = models.ForeignKey('Manufacture',blank=True,null=True)
     part_type = models.ForeignKey('Type',blank=True,null=True)
     package = models.ForeignKey('Package',blank=True,null=True)
-    location = models.CharField(max_length=100,blank=True,null=True)
+    location = models.CharField(max_length=100,blank=True)
     vendor = models.ForeignKey('Vendor',blank=True,null=True)
-    vendor_sku = models.CharField(max_length=100,blank=True,null=True)
+    vendor_sku = models.CharField(max_length=100,blank=True)
     qty = models.IntegerField(default=0) #Set default to 0
     price = models.FloatField(default=0)
     created = models.DateTimeField(auto_now_add=True)
@@ -109,11 +109,11 @@ class Part(models.Model):
 class Log(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
     part = models.ForeignKey('Part')
-    action = models.CharField(max_length=100,blank=True,null=True)
+    action = models.CharField(max_length=100,blank=True)
     qty = models.IntegerField(blank=True,null=True) #Negative for removing
-    note = models.CharField(max_length=100,blank=True,null=True)
-    vendor = models.CharField(max_length=100,blank=True,null=True)
-    invoice = models.CharField(max_length=100,blank=True,null=True)
+    note = models.CharField(max_length=100,blank=True)
+    vendor = models.CharField(max_length=100,blank=True)
+    invoice = models.CharField(max_length=100,blank=True)
     price = models.FloatField(blank=True,null=True)
     objects = ChuchoManager()
     def can_view(self, user):
