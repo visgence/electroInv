@@ -24,9 +24,10 @@ $(function() {
             });
         }).
         fail(function(resp) {
-            if(resp.hasOwnProperty('responseJSON')) { 
+            if(resp.hasOwnProperty('responseJSON'))
                 $('#update-error').html(resp['responseJSON']['error']); 
-            }
+            else
+                $('#update-error').html("An unexpected error has occured."); 
         });
     };
 
