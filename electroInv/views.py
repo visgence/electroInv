@@ -1,15 +1,15 @@
 
 #Local Imports
 from electroInv.utils import parseDigikeyCSV
-from electroInv.models import Part, Vendor
+from electroInv.models import Part, Vendor, Manufacture
 
 #System imports
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, HttpResponseBadRequest
 from django.template import RequestContext, loader
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.core.exceptions import ValidationError
 from settings import SESSION_TIMEOUT
-
+import urllib
 try:
     import simplejson as json
 except ImportError:
@@ -101,8 +101,107 @@ def logout(request):
     return HttpResponseRedirect("/")
 
 
-def digikey(request):
+def updateParts(partResults):
 
+    errors = []
+    for result in partResults:
+        if result['error'] is not None:
+            errors.append({'sku': result['sku'], 'vendor': result['vendor'], 'error': result['error']})
+            continue
+
+        try:
+            part = Part.objects.get(vendor_sku=result['sku'], vendor__name=result['vendor'])
+        except Part.DoesNotExist:
+            msg = "Part does not exist for updating"
+            errors.append({'sku': result['sku'], 'vendor': result['vendor'], 'error': msg})
+            continue
+
+        partData = result['items'][0]
+        
+        try:
+            manufacture = Manufacture.objects.get(name=partData['manufacturer']['name'])
+        except Manufacture.DoesNotExist:
+            manufacture = Manufacture(name=partData['manufacturer']['name'])
+            try:
+                manufacture.full_clean()
+                manufacture.save()
+            except ValidationError as e:
+                msg = "Problem while creating new Manufacture with the name "
+                msg += "%s for part: %s" % (partData['manufacturer']['name'], str(e))
+                errors.append({'sku': result['sku'], 'vendor': result['vendor'], 'error': msg})
+                continue
+
+        part.manufacture = manufacture
+        part.part_number = partData['mpn']
+        try:
+            part.full_clean()
+            part.save()
+        except ValidationError as e:
+            msg = "Problem while updating: %s" % str(e)
+            errors.append({'sku': result['sku'], 'vendor': result['vendor'], 'error': msg})
+            continue
+
+    return errors 
+
+
+def octipartUpdate(request):
+    response = check_access(request)
+    if response is None:
+        return HttpResponseRedirect('/electroInv/login-page/')
+   
+    try:
+        parts = json.loads(request.POST['parts'])
+    except KeyError:
+        return HttpResponseNotFound(json.dumps({"errors": ['No parts']}), content_type="application/json") 
+    except TypeError:
+        return HttpResponseBadRequest(json.dumps({"errors": ['Bad Json']}), content_type="application/json") 
+    
+    qList = []
+    qResults = []
+    limit = 20
+    for i, part in enumerate(parts):
+        q = {}
+        q['sku'] = part['sku']
+        q['seller'] = part['vendor']
+        q['limit'] = 1
+        qList.append(q)
+        limit -= 1
+        
+        if limit == 0 or i == len(parts)-1:
+            url = 'http://octopart.com/api/v3/parts/match?queries=%s' % urllib.quote(json.dumps(qList))
+            url += '&apikey=f5a12a3b'
+            url += '&pretty_print=true'
+            url += '&exact_only=true'
+            url += '&hide[]=offers'
+           
+            data = json.loads(urllib.urlopen(url).read())
+            for i, result in enumerate(data['results']):
+                result['sku'] = data['request']['queries'][i]['sku'] 
+                result['vendor'] = data['request']['queries'][i]['seller'] 
+                qResults.append(result)
+            
+            limit = 20
+            qList = []
+    
+    errors = updateParts(qResults)
+    return HttpResponse(json.dumps({'errors': errors}), content_type="application/json")
+
+
+
+def octipart(request):
+    response = check_access(request)
+    if response is None:
+        return HttpResponseRedirect('/electroInv/login-page/')
+
+    parts = Part.objects.filter(part_number=None).exclude(vendor=None, vendor_sku=None)
+ 
+
+    t = loader.get_template('octipart.html')
+    c = RequestContext(request, {'parts': parts})
+    return HttpResponse(t.render(c))
+
+
+def digikey(request):
     response = check_access(request)
     if response is None:
         return HttpResponseRedirect('/electroInv/login-page/')
@@ -113,7 +212,6 @@ def digikey(request):
 
 
 def importDigikey(request):
-    
     response = check_access(request)
     if response is None:
         return HttpResponseRedirect('/electroInv/login-page/')

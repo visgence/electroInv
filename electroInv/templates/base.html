@@ -39,13 +39,15 @@
 
                 {% if user.is_authenticated %}
 
-                    <li><a href="/electroInv/part/">Parts</a></li>
-                    <li><a href="/electroInv/vendor/">Vendors</a></li>
-                    <li><a href="/electroInv/type/">Part Types</a></li>
-                    <li><a href="/electroInv/manufacture">Manufacture</a></li>
-                    <li><a href="/electroInv/package">Packages</a></li>
-                    <li><a href="/electroInv/log">Log</a></li>
-                    <li><a href="/electroInv/digikey">Digikey</a></li>
+                    <li><a href="{% url 'part' %}">Parts</a></li>
+                    <li><a href="{% url 'vendor' %}">Vendors</a></li>
+                    <li><a href="{% url 'type' %}">Part Types</a></li>
+                    <li><a href="{% url 'manufacture' %}">Manufacture</a></li>
+                    <li><a href="{% url 'package' %}">Packages</a></li>
+                    <li><a href="{% url 'log' %}">Log</a></li>
+                    <li><a href="{% url 'digikey' %}">Digikey</a></li>
+                    
+                    <li><a href="{% url 'octipart' %}">OctiPart</a></li>
                 </ul>
                     <p class="navbar-text navbar-right" id="greeting">
                         Hello, {{user.first_name}} {{user.last_name}}

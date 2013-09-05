@@ -26,6 +26,7 @@ class Vendor(models.Model):
             raise TypeError('%s is not an auth user' % str(user))
 
         return True
+
     def __unicode__(self):
         return self.name
 
