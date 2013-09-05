@@ -132,8 +132,7 @@ def updateParts(partResults):
                 continue
 
         part.manufacture = manufacture
-        #part.part_number = partData['mpn']
-        part.part_number = 45678
+        part.part_number = partData['mpn']
         try:
             part.full_clean()
             part.save()
