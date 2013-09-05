@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block additionalHeaders %}
+    <script type="text/javascript" src="{{STATIC_URL}}js/octopart.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    {% if parts %}
+        <span id="update-prompt">
+            You have parts that need updating. Would you like to update them now? 
+            <button id="update-parts" type="button">Yes</button>
+        </span> 
+        <br/>
+        <span id="update-error" class="text-danger"></span>
+
+        <ul class="part-list">
+            {% for part in parts %}
+                <li><span data-vendor="{{part.vendor.name}}" value="{{part.vendor_sku}}">{{part.vendor_sku}}</span> </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        All your parts are currently up to date!
+    {% endif %}
+
+    {% csrf_token %}
+
+    <script>
+        $('#update-parts').on('click', function(){ $.fn.updateParts() });
+    </script>
+{% endblock %}

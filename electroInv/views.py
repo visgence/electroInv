@@ -103,17 +103,17 @@ def logout(request):
 
 def updateParts(partResults):
 
-    errors = []
+    returnData = []
     for result in partResults:
         if result['error'] is not None:
-            errors.append({'sku': result['sku'], 'vendor': result['vendor'], 'error': result['error']})
+            returnData.append({'sku': result['sku'], 'vendor': result['vendor'], 'error': result['error']})
             continue
 
         try:
             part = Part.objects.get(vendor_sku=result['sku'], vendor__name=result['vendor'])
         except Part.DoesNotExist:
             msg = "Part does not exist for updating"
-            errors.append({'sku': result['sku'], 'vendor': result['vendor'], 'error': msg})
+            returnData.append({'sku': result['sku'], 'vendor': result['vendor'], 'error': msg})
             continue
 
         partData = result['items'][0]
@@ -128,23 +128,26 @@ def updateParts(partResults):
             except ValidationError as e:
                 msg = "Problem while creating new Manufacture with the name "
                 msg += "%s for part: %s" % (partData['manufacturer']['name'], str(e))
-                errors.append({'sku': result['sku'], 'vendor': result['vendor'], 'error': msg})
+                returnData.append({'sku': result['sku'], 'vendor': result['vendor'], 'error': msg})
                 continue
 
         part.manufacture = manufacture
-        part.part_number = partData['mpn']
+        #part.part_number = partData['mpn']
+        part.part_number = 45678
         try:
             part.full_clean()
             part.save()
         except ValidationError as e:
             msg = "Problem while updating: %s" % str(e)
-            errors.append({'sku': result['sku'], 'vendor': result['vendor'], 'error': msg})
+            returnData.append({'sku': result['sku'], 'vendor': result['vendor'], 'error': msg})
             continue
 
-    return errors 
+        returnData.append({'sku': result['sku'], 'vendor': result['vendor'], 'error': None})
+
+    return returnData
 
 
-def octipartUpdate(request):
+def octopartUpdate(request):
     response = check_access(request)
     if response is None:
         return HttpResponseRedirect('/electroInv/login-page/')
@@ -152,9 +155,9 @@ def octipartUpdate(request):
     try:
         parts = json.loads(request.POST['parts'])
     except KeyError:
-        return HttpResponseNotFound(json.dumps({"errors": ['No parts']}), content_type="application/json") 
+        return HttpResponseNotFound(json.dumps({"error": 'Server recieved no parts'}), content_type="application/json") 
     except TypeError:
-        return HttpResponseBadRequest(json.dumps({"errors": ['Bad Json']}), content_type="application/json") 
+        return HttpResponseBadRequest(json.dumps({"error": 'Server recieved bad json'}), content_type="application/json") 
     
     qList = []
     qResults = []
@@ -183,20 +186,20 @@ def octipartUpdate(request):
             limit = 20
             qList = []
     
-    errors = updateParts(qResults)
-    return HttpResponse(json.dumps({'errors': errors}), content_type="application/json")
+    returnData = updateParts(qResults)
+    return HttpResponse(json.dumps(returnData), content_type="application/json")
 
 
 
-def octipart(request):
+def octopart(request):
     response = check_access(request)
     if response is None:
         return HttpResponseRedirect('/electroInv/login-page/')
 
-    parts = Part.objects.filter(part_number=None).exclude(vendor=None, vendor_sku=None)
+    parts = Part.objects.filter(part_number='').exclude(vendor=None, vendor_sku='')
  
 
-    t = loader.get_template('octipart.html')
+    t = loader.get_template('octopart.html')
     c = RequestContext(request, {'parts': parts})
     return HttpResponse(t.render(c))
 

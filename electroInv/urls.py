@@ -9,8 +9,8 @@ urlpatterns = patterns(
     url(r'^digikey/$', 'digikey', name='digikey'),
     url(r'^digikey/import/$', 'importDigikey', name='import-digikey'),
     
-    url(r'^octipart/$', 'octipart', name='octipart'),
-    url(r'^octipart/update/$', 'octipartUpdate', name='octipart-update'),
+    url(r'^octopart/$', 'octopart', name='octopart'),
+    url(r'^octopart/update/$', 'octopartUpdate', name='octopart-update'),
 
     url(r'^part/$', 'part', name='part'),
     url(r'^vendor/$', 'vendor', name="vendor"),
