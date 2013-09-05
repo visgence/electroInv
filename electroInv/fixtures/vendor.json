@@ -1,0 +1,10 @@
+[
+    {
+        "pk": 1,
+        "model": "electroInv.vendor",
+        "fields": {
+            "name": "Digi-Key",
+            "website": "www.digikey.com"
+        }
+    }
+]

@@ -131,10 +131,18 @@ def importDigikey(request):
         except Part.DoesNotExist:
             part = Part()
             part.description=data['description']
+        except KeyError:
+            errors.append('Was not able to locate vendor sku.')
+            continue
 
-        part.price=data['price']
-        part.part_number=""
-        part.qty += 1
+        for field, value in data.iteritems():
+            if field in ['id', 'pk']:
+                continue
+           
+            if field == "qty":
+                part.qty += value
+            else:
+                setattr(part, field, value)
 
         try:
             part.full_clean()

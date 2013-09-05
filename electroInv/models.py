@@ -68,7 +68,7 @@ class Part(models.Model):
     qty = models.IntegerField(default=0) #Set default to 0
     price = models.FloatField(default=0)
     created = models.DateTimeField(auto_now_add=True)
-    last_update = models.DateTimeField(auto_now=True)
+    lastupdate = models.DateTimeField(auto_now=True)
     objects = ChuchoManager()
     def can_view(self, user):
         if not isinstance(user, get_user_model()):
@@ -76,6 +76,8 @@ class Part(models.Model):
 
         return True
     def __unicode__(self):
+        if self.part_number is None:
+            return ""
         return self.part_number
 
     def save(self, *args, **kwargs):

@@ -15,7 +15,8 @@ class Command(BaseCommand):
 
         fixtures = [
             [
-                'electroInv/fixtures/user.json'
+                'electroInv/fixtures/user.json',
+                'electroInv/fixtures/vendor.json'
             ]
         ]
 
