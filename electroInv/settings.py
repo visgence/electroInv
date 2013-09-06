@@ -19,6 +19,11 @@ def GET_PERMISSION_OBJ():
     from django.contrib.auth import get_user_model
     return get_user_model()
 
+try:
+    from local_settings import OCTOPART_KEY
+except ImportError:
+    OCTOPART_KEY = ""
+
 #Global time format for datetime objects
 DT_FORMAT = "%m/%d/%Y %H:%M:%S"
 D_FORMAT = "%m/%d/%Y"

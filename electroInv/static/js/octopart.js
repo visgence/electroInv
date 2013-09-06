@@ -53,6 +53,7 @@ $(function() {
                 $('#update-msg').html("All parts updated successfully!").addClass('text-success'); 
         }).
         fail(function(resp) {
+            console.log(resp);
             if(resp.hasOwnProperty('responseJSON'))
                 $('#update-msg').html(resp['responseJSON']['error']).addClass('text-danger'); 
             else

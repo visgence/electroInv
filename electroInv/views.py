@@ -8,7 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.template import RequestContext, loader
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.core.exceptions import ValidationError
-from settings import SESSION_TIMEOUT
+from settings import SESSION_TIMEOUT, OCTOPART_KEY
 import urllib
 try:
     import simplejson as json
@@ -150,7 +150,10 @@ def octopartUpdate(request):
     response = check_access(request)
     if response is None:
         return HttpResponseRedirect('/electroInv/login-page/')
-   
+
+    if OCTOPART_KEY == '':
+        return HttpResponseNotFound(json.dumps({"error": 'No octopart key available'}), content_type="application/json") 
+        
     try:
         parts = json.loads(request.POST['parts'])
     except KeyError:
@@ -171,7 +174,7 @@ def octopartUpdate(request):
         
         if limit == 0 or i == len(parts)-1:
             url = 'http://octopart.com/api/v3/parts/match?queries=%s' % urllib.quote(json.dumps(qList))
-            url += '&apikey=f5a12a3b'
+            url += '&apikey='+OCTOPART_KEY
             url += '&pretty_print=true'
             url += '&exact_only=true'
             url += '&hide[]=offers'
