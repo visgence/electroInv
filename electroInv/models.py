@@ -71,11 +71,15 @@ class Part(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     lastupdate = models.DateTimeField(auto_now=True)
     objects = ChuchoManager()
+
+    search_fields = ["part_number", "description", "manufacture", "vendor", "vendor_sku"]
+
     def can_view(self, user):
         if not isinstance(user, get_user_model()):
             raise TypeError('%s is not an auth user' % str(user))
 
         return True
+
     def __unicode__(self):
         if self.part_number is None:
             return ""
@@ -105,6 +109,7 @@ class Part(models.Model):
         if log:
             l = Log(part=self,action=action,qty=qty)
             l.save()
+
 
 class Log(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
