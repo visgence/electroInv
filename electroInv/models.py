@@ -15,6 +15,9 @@ class Manufacture(models.Model):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        ordering = ['name']
+
 
 class Vendor(models.Model):
     name = models.CharField(max_length=100)
