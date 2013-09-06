@@ -12,8 +12,11 @@
         <h3>Import Digikey Invoice</h3>
         <center>
             <textarea id="csvinput" rows="20" cols="100"></textarea>
-            <div><span id="digikey-msg"></span></div>
             <div><button id="submit">Submit</button></div>      
+            <div>
+                <span id="digikey-msg"></span>
+                <ul id="digikey-msg-list"></ul>
+            </div>
         </center>  
 	</div>
     
@@ -49,13 +52,20 @@
                 var spinner = new Spinner(opts).spin($('.container').get(0));
 
                 $.post("{% url 'import-digikey' %}", jsonData, function(resp) {
-                    if(resp.hasOwnProperty('errors')) {
-                        $('#digikey-msg').text(resp.errors);
+                    if(resp.hasOwnProperty('errors') && resp.errors.length > 0) {
+                        
+                        $('#digikey-msg').text('There were one or more errors that occured.').addClass('text-danger');
+                        $.each(resp.errors, function() {
+                            var li = $('<li>', {
+                                text: this,
+                            });
+                            $('#digikey-msg-list').append(li);
+                        });
                         return;
                     }
                 
                     $('#csvinput').val('');
-                    $('#digikey-msg').text(resp);
+                    $('#digikey-msg').text("All parts were successfully Added/Updated!").addClass('text-success');
                 }).
                 always(function() {
                     spinner.stop();

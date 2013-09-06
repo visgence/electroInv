@@ -234,7 +234,7 @@ def importDigikey(request):
             part = Part()
             part.description=data['description']
         except KeyError:
-            errors.append('Was not able to locate vendor sku.')
+            errors.append('Was not able to find part number in data.')
             continue
 
         for field, value in data.iteritems():
@@ -254,6 +254,6 @@ def importDigikey(request):
         except ValidationError as e:
             errors.append(str(e))
 
-    return HttpResponse(json.dumps("Success!"), content_type="application/json")
+    return HttpResponse(json.dumps({'errors': errors}), content_type="application/json")
 
 

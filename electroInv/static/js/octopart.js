@@ -31,24 +31,32 @@ $(function() {
         var data = {'parts': JSON.stringify(parts), 'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()};
         $.post("/electroInv/octopart/update/", data, function(resp) {
             if(resp.hasOwnProperty('error')) { 
-                $('#update-error').html(resp['error']); 
+                $('#update-msg').html(resp['error']).addClass('text-danger'); 
                 return;
             }
 
             $('#update-prompt').css('display', 'none');
+            var errors = false;
             $.each(resp, function() {
                 var span = $('span[data-vendor="'+this.vendor+'"][value="'+this.sku+'"]');
-                if(this.error !== null)
+                if(this.error !== null) {
                     $(span).addClass('text-danger').append(this.error);
+                    errors = true;
+                }
                 else
                     $(span).addClass('text-success');
             });
+
+            if(errors)
+                $('#update-msg').html("One or more parts did not successfully update.").addClass('text-danger');
+            else
+                $('#update-msg').html("All parts updated successfully!").addClass('text-success'); 
         }).
         fail(function(resp) {
             if(resp.hasOwnProperty('responseJSON'))
-                $('#update-error').html(resp['responseJSON']['error']); 
+                $('#update-msg').html(resp['responseJSON']['error']).addClass('text-danger'); 
             else
-                $('#update-error').html("An unexpected error has occured."); 
+                $('#update-msg').html("An unexpected error has occured.").addClass('text-danger'); 
         }).
         always(function() {
             spinner.stop();
