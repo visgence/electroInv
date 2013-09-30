@@ -115,6 +115,11 @@ def updateParts(partResults):
             msg = "Part does not exist for updating"
             returnData.append({'sku': result['sku'], 'vendor': result['vendor'], 'error': msg})
             continue
+        
+        if len(result['items']) == 0:
+            msg = "Could not update part. Does not exist in Octopart database."
+            returnData.append({'sku': result['sku'], 'vendor': result['vendor'], 'error': msg})
+            continue
 
         partData = result['items'][0]
         
