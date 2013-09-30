@@ -40,7 +40,7 @@ $(function() {
             $.each(resp, function() {
                 var span = $('span[data-vendor="'+this.vendor+'"][value="'+this.sku+'"]');
                 if(this.error !== null) {
-                    $(span).addClass('text-danger').append(this.error);
+                    $(span).addClass('text-danger').next('span.error').text(this.error);
                     errors = true;
                 }
                 else

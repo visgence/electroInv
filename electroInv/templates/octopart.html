@@ -18,7 +18,10 @@
 
         <ul class="part-list">
             {% for part in parts %}
-                <li><span data-vendor="{{part.vendor.name}}" value="{{part.vendor_sku}}">{{part.vendor_sku}}</span> </li>
+                <li>
+                    <span data-vendor="{{part.vendor.name}}" value="{{part.vendor_sku}}">{{part.vendor_sku}}</span> 
+                    <span class="error"></span>
+                </li>
             {% endfor %}
         </ul>
     {% else %}
