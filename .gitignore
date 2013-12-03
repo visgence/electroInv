@@ -1,6 +1,7 @@
 # Local database settings #
 ###########################
 local_database_settings.py
+local_settings.py
 localsettings.py
 
 # Generated build files
@@ -26,6 +27,7 @@ localsettings.py
 hardcopy.*
 .project
 .pydevproject
+*.sublime-*
 
 # OS generated files #
 ######################
