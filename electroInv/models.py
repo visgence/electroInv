@@ -91,6 +91,7 @@ class Part(models.Model):
     def save(self, *args, **kwargs):
         
         log = True
+        invoiceNumber = kwargs.pop('invoiceNumber', '')
         if 'no_log' in kwargs and kwargs['no_log'] == True:
             log = False
 
@@ -110,7 +111,7 @@ class Part(models.Model):
         super(Part, self).save(*args, **kwargs)
        
         if log:
-            l = Log(part=self,action=action,qty=qty)
+            l = Log(part=self,action=action,qty=qty,invoice=invoiceNumber)
             l.save()
 
 

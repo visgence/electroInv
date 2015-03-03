@@ -227,6 +227,8 @@ def importDigikey(request):
         return HttpResponseRedirect('/electroInv/login-page/')
 
     invoice = request.POST.get('invoice', None)
+    invoiceNumber = request.POST.get('invoiceNumber', '')
+
     if invoice is None or invoice == '':
         error = "You must provide a digikey invoice for importing"
         return HttpResponse(json.dumps({'errors': [error]}), content_type="application/json")
@@ -258,7 +260,7 @@ def importDigikey(request):
 
         try:
             part.full_clean()
-            part.save()
+            part.save(invoiceNumber = invoiceNumber)
         except ValidationError as e:
             errors.append(str(e))
 

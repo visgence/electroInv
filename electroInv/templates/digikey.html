@@ -12,6 +12,10 @@
         <h3>Import Digikey Invoice</h3>
         <center>
             <textarea id="csvinput" rows="20" cols="100"></textarea>
+            <div>
+                <label>Invoice Number</label>
+                <input type="text" id="invoiceNumber">
+            </div>
             <div><button id="submit">Submit</button></div>      
             <div>
                 <span id="digikey-msg"></span>
@@ -46,7 +50,8 @@
             $('#submit').on('click', function() {
                 jsonData = {
                     'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
-                    'invoice': $('#csvinput').val()
+                    'invoice': $('#csvinput').val(),
+                    'invoiceNumber': $('#invoiceNumber').val()
                 };
                 
                 var spinner = new Spinner(opts).spin($('.container').get(0));
