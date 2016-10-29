@@ -5,10 +5,10 @@ urlpatterns = patterns(
     url(r'^$', 'index', name='index'),
     url(r'^login/$', 'login', name='login'),
     url(r'^logout/$', 'logout', name='logout'),
-   
+
     url(r'^digikey/$', 'digikey', name='digikey'),
     url(r'^digikey/import/$', 'importDigikey', name='import-digikey'),
-    
+
     url(r'^octopart/$', 'octopart', name='octopart'),
     url(r'^octopart/update/$', 'octopartUpdate', name='octopart-update'),
 
