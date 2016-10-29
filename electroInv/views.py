@@ -84,8 +84,9 @@ def login_page(request):
     return HttpResponse(t.render(c))
 
 
-def login(request):
 
+def login(request):
+    print "\n\nwe're here"
     response = check_access(request)
     if response is not None:
         return HttpResponseRedirect('/')
@@ -96,15 +97,17 @@ def login(request):
         if user is not None:
             if user.is_active:
                 auth_login(request, user)
+
                 return HttpResponseRedirect('/')
             else:
                 error = "Account disabled"
         else:
-            error = "Invalid login";
+            error = "Invalid login"
 
-    t = loader.get_template('login.html');
-    c = RequestContext(request, {'error':error})
+    t = loader.get_template('login.html')
+    c = RequestContext(request, {'error': error})
     return HttpResponse(t.render(c))
+
 
 def logout(request):
     auth_logout(request)
