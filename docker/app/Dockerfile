@@ -18,8 +18,6 @@ RUN yum install -y net-snmp-python
 RUN yum install -y postgresql && yum clean all
 
 RUN pip install django==1.8
-#RUN pip install django-localflavor
-RUN pip install South
 
 RUN yum install -y make automake gcc gcc-c++ && yum clean all
 RUN yum install -y python-devel && yum clean all
