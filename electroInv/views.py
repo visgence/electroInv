@@ -1,9 +1,9 @@
 
-#Local Imports
+# Local Imports
 from electroInv.utils import parseDigikeyCSV
 from electroInv.models import Part, Vendor, Manufacture
 
-#System imports
+#   System imports
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, HttpResponseBadRequest
 from django.template import RequestContext, loader
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
@@ -18,7 +18,7 @@ except ImportError:
 
 def check_access(request):
     request.session.set_expiry(SESSION_TIMEOUT)
-        
+
     if request.user.is_authenticated():
         if request.user.is_active:
             return request.user
@@ -29,35 +29,45 @@ def check_access(request):
 
 
 def part(request):
-	return chucho(request,'Part')
-def vendor(request):
-	return chucho(request,'Vendor')
-def type(request):
-	return chucho(request,'Type')
-def manufacture(request):
-	return chucho(request,'Manufacture')
-def package(request):
-	return chucho(request,'Package')
-def log(request):
-	return chucho(request,'Log')
+    return chucho(request, 'Part')
 
-def chucho(request,model):
-   
+
+def vendor(request):
+    return chucho(request, 'Vendor')
+
+
+def type(request):
+    return chucho(request, 'Type')
+
+
+def manufacture(request):
+    return chucho(request, 'Manufacture')
+
+
+def package(request):
+    return chucho(request, 'Package')
+
+
+def log(request):
+    return chucho(request, 'Log')
+
+
+def chucho(request, model):
+
     response = check_access(request)
     if response is None:
         return HttpResponseRedirect('/electroInv/login-page/')
-    
+
     t = loader.get_template('modelManage.html')
-    c = RequestContext(request, {'model':model})
+    c = RequestContext(request, {'model': model})
     return HttpResponse(t.render(c))
 
 
 def index(request):
-   
+
     response = check_access(request)
     if response is None:
         return HttpResponseRedirect('/electroInv/login-page/')
-    
     t = loader.get_template('index.html')
     c = RequestContext(request, {})
     return HttpResponse(t.render(c))
@@ -75,7 +85,7 @@ def login_page(request):
 
 
 def login(request):
-    
+
     response = check_access(request)
     if response is not None:
         return HttpResponseRedirect('/')
@@ -115,14 +125,14 @@ def updateParts(partResults):
             msg = "Part does not exist for updating"
             returnData.append({'sku': result['sku'], 'vendor': result['vendor'], 'error': msg})
             continue
-        
+
         if len(result['items']) == 0:
             msg = "Could not update part. Does not exist in Octopart database."
             returnData.append({'sku': result['sku'], 'vendor': result['vendor'], 'error': msg})
             continue
 
         partData = result['items'][0]
-        
+
         try:
             manufacture = Manufacture.objects.get(name=partData['manufacturer']['name'])
         except Manufacture.DoesNotExist:
@@ -157,15 +167,15 @@ def octopartUpdate(request):
         return HttpResponseRedirect('/electroInv/login-page/')
 
     if OCTOPART_KEY == '':
-        return HttpResponseNotFound(json.dumps({"error": 'No octopart key available'}), content_type="application/json") 
-        
+        return HttpResponseNotFound(json.dumps({"error": 'No octopart key available'}), content_type="application/json")
+
     try:
         parts = json.loads(request.POST['parts'])
     except KeyError:
-        return HttpResponseNotFound(json.dumps({"error": 'Server recieved no parts'}), content_type="application/json") 
+        return HttpResponseNotFound(json.dumps({"error": 'Server recieved no parts'}), content_type="application/json")
     except TypeError:
-        return HttpResponseBadRequest(json.dumps({"error": 'Server recieved bad json'}), content_type="application/json") 
-    
+        return HttpResponseBadRequest(json.dumps({"error": 'Server recieved bad json'}), content_type="application/json")
+
     qList = []
     qResults = []
     limit = 20
@@ -176,23 +186,23 @@ def octopartUpdate(request):
         q['limit'] = 1
         qList.append(q)
         limit -= 1
-        
+
         if limit == 0 or i == len(parts)-1:
             url = 'http://octopart.com/api/v3/parts/match?queries=%s' % urllib.quote(json.dumps(qList))
             url += '&apikey='+OCTOPART_KEY
             url += '&pretty_print=true'
             url += '&exact_only=true'
             url += '&hide[]=offers'
-           
+
             data = json.loads(urllib.urlopen(url).read())
             for i, result in enumerate(data['results']):
-                result['sku'] = data['request']['queries'][i]['sku'] 
-                result['vendor'] = data['request']['queries'][i]['seller'] 
+                result['sku'] = data['request']['queries'][i]['sku']
+                result['vendor'] = data['request']['queries'][i]['seller']
                 qResults.append(result)
-            
+
             limit = 20
             qList = []
-    
+
     returnData = updateParts(qResults)
     return HttpResponse(json.dumps(returnData), content_type="application/json")
 
@@ -204,7 +214,7 @@ def octopart(request):
         return HttpResponseRedirect('/electroInv/login-page/')
 
     parts = Part.objects.filter(part_number='').exclude(vendor=None, vendor_sku='')
- 
+
 
     t = loader.get_template('octopart.html')
     c = RequestContext(request, {'parts': parts})
@@ -250,7 +260,7 @@ def importDigikey(request):
         for field, value in data.iteritems():
             if field in ['id', 'pk']:
                 continue
-           
+
             if field == "qty":
                 part.qty += value
             else:
