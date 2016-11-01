@@ -9,6 +9,7 @@ from django.template import RequestContext, loader
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.core.exceptions import ValidationError
 from settings import SESSION_TIMEOUT, OCTOPART_KEY
+from django.shortcuts import render
 import urllib
 try:
     import simplejson as json
@@ -60,37 +61,37 @@ def chucho(request, model):
 
     t = loader.get_template('modelManage.html')
     c = RequestContext(request, {'model': model})
-    return HttpResponse(t.render(c))
+    # return HttpResponse(t.render(c))
+    return render(request, 'modelManage.html', request)
 
 
 def index(request):
-
     response = check_access(request)
     if response is None:
         return HttpResponseRedirect('/electroInv/login-page/')
     t = loader.get_template('index.html')
     c = RequestContext(request, {})
-    return HttpResponse(t.render(c))
+    # return HttpResponse(t.render(c))
+    return render(request, 'index.html', request)
 
 
 def login_page(request):
-
+    print "\nwe got here"
     response = check_access(request)
     if response is not None:
         return HttpResponseRedirect('/')
 
     t = loader.get_template('login.html')
     c = RequestContext(request, {})
-    return HttpResponse(t.render(c))
-
-
+    # return HttpResponse(t.render(c))
+    return render(request, 'login.html', request)
 
 def login(request):
     print "\n\nwe're here"
     response = check_access(request)
     if response is not None:
         return HttpResponseRedirect('/')
-
+    print "response is: {}".format(response)
     error = ''
     if request.method == 'POST':
         user = authenticate(username=request.POST["username"], password=request.POST["password"])
@@ -106,7 +107,8 @@ def login(request):
 
     t = loader.get_template('login.html')
     c = RequestContext(request, {'error': error})
-    return HttpResponse(t.render(c))
+    # return HttpResponse(t.render(c))
+    return render(request, 'login.html', request)
 
 
 def logout(request):
@@ -221,7 +223,8 @@ def octopart(request):
 
     t = loader.get_template('octopart.html')
     c = RequestContext(request, {'parts': parts})
-    return HttpResponse(t.render(c))
+    # return HttpResponse(t.render(c))
+    return render(request, 'octopart.html', request)
 
 
 def digikey(request):
@@ -231,7 +234,8 @@ def digikey(request):
 
     t = loader.get_template('digikey.html')
     c = RequestContext(request, {})
-    return HttpResponse(t.render(c))
+    # return HttpResponse(t.render(c))
+    return render(request, 'digikey.html', request)
 
 
 def importDigikey(request):
