@@ -62,7 +62,7 @@ def chucho(request, model):
     t = loader.get_template('modelManage.html')
     c = RequestContext(request, {'model': model})
     # return HttpResponse(t.render(c))
-    return render(request, 'modelManage.html', request)
+    return render(request, 'modelManage.html', {'model': model})
 
 
 def index(request):
@@ -72,7 +72,7 @@ def index(request):
     t = loader.get_template('index.html')
     c = RequestContext(request, {})
     # return HttpResponse(t.render(c))
-    return render(request, 'index.html', request)
+    return render(request, 'index.html', {})
 
 
 def login_page(request):
@@ -84,7 +84,7 @@ def login_page(request):
     t = loader.get_template('login.html')
     c = RequestContext(request, {})
     # return HttpResponse(t.render(c))
-    return render(request, 'login.html', request)
+    return render(request, 'login.html', {})
 
 def login(request):
     print "\n\nwe're here"
@@ -108,7 +108,7 @@ def login(request):
     t = loader.get_template('login.html')
     c = RequestContext(request, {'error': error})
     # return HttpResponse(t.render(c))
-    return render(request, 'login.html', request)
+    return render(request, 'login.html', {'error': error})
 
 
 def logout(request):
@@ -224,7 +224,7 @@ def octopart(request):
     t = loader.get_template('octopart.html')
     c = RequestContext(request, {'parts': parts})
     # return HttpResponse(t.render(c))
-    return render(request, 'octopart.html', request)
+    return render(request, 'octopart.html', {'parts': parts})
 
 
 def digikey(request):
@@ -235,7 +235,7 @@ def digikey(request):
     t = loader.get_template('digikey.html')
     c = RequestContext(request, {})
     # return HttpResponse(t.render(c))
-    return render(request, 'digikey.html', request)
+    return render(request, 'digikey.html', {})
 
 
 def importDigikey(request):
