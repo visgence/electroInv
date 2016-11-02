@@ -58,10 +58,6 @@ def chucho(request, model):
     response = check_access(request)
     if response is None:
         return HttpResponseRedirect('/electroInv/login-page/')
-
-    t = loader.get_template('modelManage.html')
-    c = RequestContext(request, {'model': model})
-    # return HttpResponse(t.render(c))
     return render(request, 'modelManage.html', {'model': model})
 
 
@@ -69,9 +65,6 @@ def index(request):
     response = check_access(request)
     if response is None:
         return HttpResponseRedirect('/electroInv/login-page/')
-    t = loader.get_template('index.html')
-    c = RequestContext(request, {})
-    # return HttpResponse(t.render(c))
     return render(request, 'index.html', {})
 
 
@@ -85,6 +78,7 @@ def login_page(request):
     c = RequestContext(request, {})
     # return HttpResponse(t.render(c))
     return render(request, 'login.html', {})
+
 
 def login(request):
     print "\n\nwe're here"
@@ -105,9 +99,6 @@ def login(request):
         else:
             error = "Invalid login"
 
-    t = loader.get_template('login.html')
-    c = RequestContext(request, {'error': error})
-    # return HttpResponse(t.render(c))
     return render(request, 'login.html', {'error': error})
 
 
@@ -212,7 +203,6 @@ def octopartUpdate(request):
     return HttpResponse(json.dumps(returnData), content_type="application/json")
 
 
-
 def octopart(request):
     response = check_access(request)
     if response is None:
@@ -220,10 +210,6 @@ def octopart(request):
 
     parts = Part.objects.filter(part_number='').exclude(vendor=None, vendor_sku='')
 
-
-    t = loader.get_template('octopart.html')
-    c = RequestContext(request, {'parts': parts})
-    # return HttpResponse(t.render(c))
     return render(request, 'octopart.html', {'parts': parts})
 
 
@@ -232,9 +218,6 @@ def digikey(request):
     if response is None:
         return HttpResponseRedirect('/electroInv/login-page/')
 
-    t = loader.get_template('digikey.html')
-    c = RequestContext(request, {})
-    # return HttpResponse(t.render(c))
     return render(request, 'digikey.html', {})
 
 
@@ -256,10 +239,10 @@ def importDigikey(request):
     vendor = Vendor.objects.get(name="Digi-Key")
     for data in invoiceData:
         try:
-            part = Part.objects.get(vendor_sku = data['vendor_sku'])
+            part = Part.objects.get(vendor_sku=data['vendor_sku'])
         except Part.DoesNotExist:
             part = Part()
-            part.description=data['description']
+            part.description = data['description']
         except KeyError:
             errors.append('Was not able to find part number in data.')
             continue
@@ -277,10 +260,8 @@ def importDigikey(request):
 
         try:
             part.full_clean()
-            part.save(invoiceNumber = invoiceNumber)
+            part.save(invoiceNumber=invoiceNumber)
         except ValidationError as e:
             errors.append(str(e))
 
     return HttpResponse(json.dumps({'errors': errors}), content_type="application/json")
-
-
