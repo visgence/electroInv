@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block additionalHeaders %}
-
-    <script type="text/javascript" src="{{STATIC_URL}}js/spin.min.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/chucho.grid.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/chucho.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/grid.css">
+ {% load static %}
+    <script type="text/javascript" src="{% static "js/spin.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/chucho.grid.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/chucho.js" %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "css/grid.css" %}">
 
 {% endblock additionalHeaders %}
 

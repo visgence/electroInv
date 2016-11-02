@@ -2,7 +2,7 @@
 
 {% block additionalHeaders %}
 
-    <script type="text/javascript" src="{{STATIC_URL}}js/spin.min.js"></script>
+    <script src="{% static "js/spin.min.js" %}"></script>
 
 {% endblock additionalHeaders %}
 
@@ -16,14 +16,14 @@
                 <label>Invoice Number</label>
                 <input type="text" id="invoiceNumber">
             </div>
-            <div><button id="submit">Submit</button></div>      
+            <div><button id="submit">Submit</button></div>
             <div>
                 <span id="digikey-msg"></span>
                 <ul id="digikey-msg-list"></ul>
             </div>
-        </center>  
+        </center>
 	</div>
-    
+
     {% csrf_token %}
 
     <script>
@@ -53,11 +53,11 @@
                     'invoice': $('#csvinput').val(),
                     'invoiceNumber': $('#invoiceNumber').val()
                 };
-                
+
                 var spinner = new Spinner(opts).spin($('.container').get(0));
 
                 $.post("{% url 'import-digikey' %}", jsonData, function(resp) {
-                    
+
                     $('#digikey-msg-list').html('');
                     if(resp.hasOwnProperty('errors') && resp.errors.length > 0) {
                         $('#digikey-msg').text('There were one or more errors that occured.')
@@ -71,7 +71,7 @@
                         });
                         return;
                     }
-                
+
                     $('#csvinput').val('');
                     $('#digikey-msg').text("All parts were successfully Added/Updated!")
                     .removeClass('text-danger').addClass('text-success');

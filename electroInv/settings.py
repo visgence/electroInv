@@ -96,6 +96,8 @@ STATICFILES_DIRS = [
     # os.path.join(APP_PATH, "static")
 ]
 
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
