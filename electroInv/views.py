@@ -58,6 +58,8 @@ def chucho(request, model):
     response = check_access(request)
     if response is None:
         return HttpResponseRedirect('/electroInv/login-page/')
+    print model
+    print "here"
     return render(request, 'modelManage.html', {'model': model})
 
 
