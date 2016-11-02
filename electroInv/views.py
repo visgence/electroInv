@@ -58,8 +58,6 @@ def chucho(request, model):
     response = check_access(request)
     if response is None:
         return HttpResponseRedirect('/electroInv/login-page/')
-    print model
-    print "here"
     return render(request, 'modelManage.html', {'model': model})
 
 
@@ -71,23 +69,16 @@ def index(request):
 
 
 def login_page(request):
-    print "\nwe got here"
     response = check_access(request)
     if response is not None:
         return HttpResponseRedirect('/')
-
-    t = loader.get_template('login.html')
-    c = RequestContext(request, {})
-    # return HttpResponse(t.render(c))
     return render(request, 'login.html', {})
 
 
 def login(request):
-    print "\n\nwe're here"
     response = check_access(request)
     if response is not None:
         return HttpResponseRedirect('/')
-    print "response is: {}".format(response)
     error = ''
     if request.method == 'POST':
         user = authenticate(username=request.POST["username"], password=request.POST["password"])
@@ -100,7 +91,6 @@ def login(request):
                 error = "Account disabled"
         else:
             error = "Invalid login"
-
     return render(request, 'login.html', {'error': error})
 
 
