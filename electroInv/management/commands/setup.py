@@ -6,9 +6,8 @@ from django.core.management import call_command
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        call_command('syncdb', interactive=False)
         # self.stdout.write('Successfully BLAHHHED' )#DEBUG
-                 
+        call_command('migrate', fake=True)
         #Comment or uncomment fixtures as needed for loading.
         #ORDER OF FIXTURES MATTERS!! Some have dependencies on others.
         print "Loading test data fixtures"
