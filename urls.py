@@ -6,6 +6,7 @@ urlpatterns = [
     url(r'^$', RedirectView.as_view(url='/electroInv/')),
     url(r'^electroInv/', include('electroInv.urls')),
     url(r'^chucho/', include('chucho.urls')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 
 urlpatterns += staticfiles_urlpatterns()

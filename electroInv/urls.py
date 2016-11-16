@@ -17,5 +17,5 @@ urlpatterns = [
     url(r'^manufacture/$', views.manufacture, name='manufacture'),
     url(r'^package/$', views.package, name='package'),
     url(r'^log/$', views.log, name="log"),
-    url(r'^login-page/$', views.login_page, name='login-page'),
+    url(r'^login-page/$', views.login_page, name='login-page')
 ]
