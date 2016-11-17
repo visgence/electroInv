@@ -11,6 +11,8 @@ router.register(r'api/package', apiviews.PackageViewSet)
 router.register(r'api/part', apiviews.PartViewSet)
 router.register(r'api/log', apiviews.LogViewSet)
 
+router.register(r'api/user', apiviews.UserList)
+
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^login/$', views.login, name='login'),
@@ -31,5 +33,6 @@ urlpatterns = [
     url(r'^login-page/$', views.login_page, name='login-page'),
 
     url(r'^', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
 ]

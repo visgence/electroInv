@@ -1,5 +1,6 @@
 from models import Manufacture, Vendor, Type, Package, Part, Log
 from rest_framework import serializers
+from django.contrib.auth.models import User
 
 
 class ManufactureSerializer(serializers.HyperlinkedModelSerializer):
@@ -38,3 +39,11 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Log
         fields = ('timestamp', 'part', 'action', 'qty', 'note', 'vendor', 'invoice', 'price')
+
+
+class UserSerializer(serializers.ModelSerializer):
+    Manufacture = serializers.PrimaryKeyRelatedField(many=True, queryset=Manufacture.objects.all())
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'manufacture')

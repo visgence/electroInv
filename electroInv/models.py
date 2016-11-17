@@ -2,17 +2,40 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from chucho.models import ChuchoManager, ChuchoUserManager
 
+from pygments.lexers import get_lexer_by_name
+from pygments.formatters.html import HtmlFormatter
+from pygments import highlight
+
 
 class Manufacture(models.Model):
     name = models.CharField(max_length=100)
-    website = models.CharField(max_length=100,blank=True)
-    contact = models.CharField(max_length=100,blank=True)
+    website = models.CharField(max_length=100, blank=True)
+    contact = models.CharField(max_length=100, blank=True)
+
+    # begin rest auth stuff
+    owner = models.ForeignKey('auth.User', related_name='manufacture', on_delete=models.CASCADE)
+    highlighted = models.TextField()
+
+    def save(self, *args, **kwargs):
+        """
+        Use the `pygments` library to create a highlighted HTML
+        representation of the code snippet.
+        """
+        lexer = get_lexer_by_name(self.name)
+
+        self.highlighted = highlight(lexer)
+        super(Manufacture, self).save(*args, **kwargs)
+
+    # end rest auth stuff
+
     objects = ChuchoManager()
+
     def can_view(self, user):
         if not isinstance(user, get_user_model()):
             raise TypeError('%s is not an auth user' % str(user))
 
         return True
+
     def __unicode__(self):
         return self.name
 
@@ -22,9 +45,10 @@ class Manufacture(models.Model):
 
 class Vendor(models.Model):
     name = models.CharField(max_length=100)
-    website = models.CharField(max_length=100,blank=True)
-    contact = models.CharField(max_length=100,blank=True)
+    website = models.CharField(max_length=100, blank=True)
+    contact = models.CharField(max_length=100, blank=True)
     objects = ChuchoManager()
+
     def can_view(self, user):
         if not isinstance(user, get_user_model()):
             raise TypeError('%s is not an auth user' % str(user))
@@ -74,6 +98,7 @@ class Part(models.Model):
     price = models.FloatField(default=0)
     created = models.DateTimeField(auto_now_add=True)
     lastupdate = models.DateTimeField(auto_now=True)
+
     objects = ChuchoManager()
 
     search_fields = ["part_number", "description", "manufacture", "vendor", "vendor_sku"]

@@ -1,6 +1,7 @@
 from models import Vendor, Type, Manufacture, Package, Part, Log
 from rest_framework import viewsets
-from serializers import VendorSerializer, TypeSerializer, ManufactureSerializer, PackageSerializer, PartSerializer, LogSerializer
+from serializers import VendorSerializer, TypeSerializer, ManufactureSerializer, PackageSerializer, PartSerializer, LogSerializer, UserSerializer
+from django.contrib.auth.models import User
 
 
 class ManufactureViewSet(viewsets.ModelViewSet):
@@ -31,3 +32,8 @@ class PartViewSet(viewsets.ModelViewSet):
 class LogViewSet(viewsets.ModelViewSet):
     queryset = Log.objects.all()
     serializer_class = LogSerializer
+
+
+class UserList(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
