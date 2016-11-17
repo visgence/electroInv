@@ -1,27 +1,33 @@
-from models import Vendor, Type, Manufacture
+from models import Vendor, Type, Manufacture, Package, Part, Log
 from rest_framework import viewsets
-from serializers import VendorSerializer, TypeSerializer, ManufactureSerializer
+from serializers import VendorSerializer, TypeSerializer, ManufactureSerializer, PackageSerializer, PartSerializer, LogSerializer
+
+
+class ManufactureViewSet(viewsets.ModelViewSet):
+    queryset = Manufacture.objects.all()
+    serializer_class = ManufactureSerializer
 
 
 class VendorViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
     queryset = Vendor.objects.all()
     serializer_class = VendorSerializer
 
 
 class TypeViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
     queryset = Type.objects.all()
     serializer_class = TypeSerializer
 
 
-class ManufactureViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Manufacture.objects.all()
-    serializer_class = ManufactureSerializer
+class PackageViewSet(viewsets.ModelViewSet):
+    queryset = Package.objects.all()
+    serializer_class = PackageSerializer
+
+
+class PartViewSet(viewsets.ModelViewSet):
+    queryset = Part.objects.all()
+    serializer_class = PartSerializer
+
+
+class LogViewSet(viewsets.ModelViewSet):
+    queryset = Log.objects.all()
+    serializer_class = LogSerializer
