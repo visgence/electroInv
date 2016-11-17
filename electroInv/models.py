@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from chucho.models import ChuchoManager, ChuchoUserManager
 
+
 class Manufacture(models.Model):
     name = models.CharField(max_length=100)
     website = models.CharField(max_length=100,blank=True)
@@ -89,7 +90,7 @@ class Part(models.Model):
         return self.part_number
 
     def save(self, *args, **kwargs):
-        
+
         log = True
         invoiceNumber = kwargs.pop('invoiceNumber', '')
         if 'no_log' in kwargs and kwargs['no_log'] == True:
@@ -106,10 +107,10 @@ class Part(models.Model):
             if qty !=0:
                 #Get the qty before the modifiy and save the difference
                 p = Part.objects.get(id=self.id)
-                qty = qty - p.qty 
+                qty = qty - p.qty
 
         super(Part, self).save(*args, **kwargs)
-       
+
         if log:
             l = Log(part=self,action=action,qty=qty,invoice=invoiceNumber)
             l.save()

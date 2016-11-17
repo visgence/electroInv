@@ -1,5 +1,13 @@
 from django.conf.urls import include, url
 import views
+import apiviews
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'api/vendor', apiviews.VendorViewSet)
+router.register(r'api/type', apiviews.TypeViewSet)
+router.register(r'api/manufacture', apiviews.ManufactureViewSet)
+
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^login/$', views.login, name='login'),
@@ -17,5 +25,8 @@ urlpatterns = [
     url(r'^manufacture/$', views.manufacture, name='manufacture'),
     url(r'^package/$', views.package, name='package'),
     url(r'^log/$', views.log, name="log"),
-    url(r'^login-page/$', views.login_page, name='login-page')
+    url(r'^login-page/$', views.login_page, name='login-page'),
+
+    url(r'^', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
