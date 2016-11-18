@@ -36,6 +36,6 @@ class LogViewSet(viewsets.ModelViewSet):
     serializer_class = LogSerializer
 
 
-class UserList(viewsets.ModelViewSet):
+class Main(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer

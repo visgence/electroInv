@@ -10,8 +10,7 @@ router.register(r'api/type', apiviews.TypeViewSet)
 router.register(r'api/package', apiviews.PackageViewSet)
 router.register(r'api/part', apiviews.PartViewSet)
 router.register(r'api/log', apiviews.LogViewSet)
-
-router.register(r'api/user', apiviews.UserList)
+router.register(r'api', apiviews.Main)
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),

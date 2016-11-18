@@ -43,8 +43,6 @@ class LogSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    Manufacture = serializers.PrimaryKeyRelatedField(many=True, queryset=Manufacture.objects.all())
-
     class Meta:
         model = User
-        fields = ('id', 'username', 'manufacture')
+        fields = ('id', 'username')
