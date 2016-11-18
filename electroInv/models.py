@@ -12,22 +12,6 @@ class Manufacture(models.Model):
     website = models.CharField(max_length=100, blank=True)
     contact = models.CharField(max_length=100, blank=True)
 
-    # begin rest auth stuff
-    owner = models.ForeignKey('auth.User', related_name='manufacture', on_delete=models.CASCADE)
-    highlighted = models.TextField()
-
-    def save(self, *args, **kwargs):
-        """
-        Use the `pygments` library to create a highlighted HTML
-        representation of the code snippet.
-        """
-        lexer = get_lexer_by_name(self.name)
-
-        self.highlighted = highlight(lexer)
-        super(Manufacture, self).save(*args, **kwargs)
-
-    # end rest auth stuff
-
     objects = ChuchoManager()
 
     def can_view(self, user):
@@ -63,37 +47,42 @@ class Type(models.Model):
     name = models.CharField(max_length=100)
     reference = models.CharField(max_length=100)
     objects = ChuchoManager()
+
     def can_view(self, user):
         if not isinstance(user, get_user_model()):
             raise TypeError('%s is not an auth user' % str(user))
 
         return True
+
     def __unicode__(self):
         return self.name
 
+
 class Package(models.Model):
     name = models.CharField(max_length=100)
-    library = models.CharField(max_length=100,blank=True)
+    library = models.CharField(max_length=100, blank=True)
     objects = ChuchoManager()
+
     def can_view(self, user):
         if not isinstance(user, get_user_model()):
             raise TypeError('%s is not an auth user' % str(user))
 
         return True
+
     def __unicode__(self):
         return self.name
 
 
 class Part(models.Model):
-    part_number = models.CharField(max_length=100,blank=True)
-    description = models.CharField(max_length=100,blank=True)
-    value = models.CharField(max_length=100,blank=True)
-    manufacture = models.ForeignKey('Manufacture',blank=True,null=True)
-    part_type = models.ForeignKey('Type',blank=True,null=True)
-    package = models.ForeignKey('Package',blank=True,null=True)
-    location = models.CharField(max_length=100,blank=True)
-    vendor = models.ForeignKey('Vendor',blank=True,null=True)
-    vendor_sku = models.CharField(max_length=100,blank=True)
+    part_number = models.CharField(max_length=100, blank=True)
+    description = models.CharField(max_length=100, blank=True)
+    value = models.CharField(max_length=100, blank=True)
+    manufacture = models.ForeignKey('Manufacture', blank=True, null=True)
+    part_type = models.ForeignKey('Type', blank=True, null=True)
+    package = models.ForeignKey('Package', blank=True, null=True)
+    location = models.CharField(max_length=100, blank=True)
+    vendor = models.ForeignKey('Vendor', blank=True, null=True)
+    vendor_sku = models.CharField(max_length=100, blank=True)
     qty = models.IntegerField(default=0) #Set default to 0
     price = models.FloatField(default=0)
     created = models.DateTimeField(auto_now_add=True)

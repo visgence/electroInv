@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 
 class ManufactureSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Manufacture
         fields = ('name', 'website', 'contact')
