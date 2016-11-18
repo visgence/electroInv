@@ -1,11 +1,14 @@
 from models import Vendor, Type, Manufacture, Package, Part, Log
 from rest_framework import viewsets
-from serializers import VendorSerializer, TypeSerializer, ManufactureSerializer, PackageSerializer, PartSerializer, LogSerializer
+from serializers import VendorSerializer, TypeSerializer, ManufactureSerializer, PackageSerializer, PartSerializer, LogSerializer, UserSerializer
+from django.contrib.auth.models import User
+from rest_framework import permissions
 
 
 class ManufactureViewSet(viewsets.ModelViewSet):
     queryset = Manufacture.objects.all()
     serializer_class = ManufactureSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 class VendorViewSet(viewsets.ModelViewSet):
@@ -31,3 +34,8 @@ class PartViewSet(viewsets.ModelViewSet):
 class LogViewSet(viewsets.ModelViewSet):
     queryset = Log.objects.all()
     serializer_class = LogSerializer
+
+
+class Main(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
