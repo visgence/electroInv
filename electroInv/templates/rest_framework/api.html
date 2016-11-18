@@ -1,5 +1,33 @@
 {% extends 'rest_framework/base.html' %}
+{% block branding %}
 
-{% block body %}
-    Hello !
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle Navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{% url 'index' %}" style="padding-bottom: 0;">
+            <img src="/static/imgs/electroninv_logo.png" height="30px" width="200px"/>
+        </a>
+    </div>
+
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+            <li><a href="{% url 'part' %}">Parts</a></li>
+            <li><a href="{% url 'vendor' %}">Vendors</a></li>
+            <li><a href="{% url 'type' %}">Part Types</a></li>
+            <li><a href="{% url 'manufacture' %}">Manufacture</a></li>
+            <li><a href="{% url 'package' %}">Packages</a></li>
+            <li><a href="{% url 'log' %}">Log</a></li>
+            <li><a href="{% url 'digikey' %}">Digikey</a></li>
+
+            <li><a href="{% url 'octopart' %}">OctoPart</a></li>
+        </ul>
+    </div>
+
+</nav>
 {% endblock %}
