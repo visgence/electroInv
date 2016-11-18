@@ -1,5 +1,5 @@
 # Django settings for electroInv project.
-import os,sys
+import os, sys
 APP_PATH = os.path.dirname(os.path.realpath(__file__)) + '/'
 
 DEBUG = True
@@ -9,6 +9,7 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
+
 
 def GET_PERMISSION_OBJ():
     '''
@@ -24,7 +25,7 @@ try:
     from local_settings import OCTOPART_KEY
 except ImportError:
     pass
-#Global time format for datetime objects
+# Global time format for datetime objects
 DT_FORMAT = "%m/%d/%Y %H:%M:%S"
 D_FORMAT = "%m/%d/%Y"
 
@@ -103,7 +104,7 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -117,13 +118,13 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             # insert your TEMPLATE_DIRS here
-            '/static/'
+            # '/static/',
+            APP_PATH + 'templates'
         ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
-                # list if you haven't customized them:
+                # Insert your TEMPLATE_CONTEXT_PROCESSORS here:
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.i18n',
@@ -131,9 +132,9 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
+            ]
+        }
+    }
 ]
 
 MIDDLEWARE_CLASSES = (
@@ -167,13 +168,15 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-#    'django_cherrypy',
+    # 'django_cherrypy',
     'chucho',
     'electroInv',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    # 'django.contrib.markup',
+    # 'django.contrib.webdesign',
 )
 
 # A sample logging configuration. The only tangible logging
