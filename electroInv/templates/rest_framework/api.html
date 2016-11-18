@@ -1,10 +1,18 @@
 {% extends 'rest_framework/base.html' %}
+
+
 {% block branding %}
 
+<style>
+a{
+    color: 777777;
+}
+</style>
 <nav class="navbar navbar-default" role="navigation">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse"
-                data-target=".navbar-ex1-collapse">
+    <div style="background: #f8f8f8; border-color: #f8f8f8; t">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target=".navbar-ex1-collapse">
             <span class="sr-only">Toggle Navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -17,17 +25,16 @@
 
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
-            <li><a href="{% url 'part' %}">Parts</a></li>
-            <li><a href="{% url 'vendor' %}">Vendors</a></li>
-            <li><a href="{% url 'type' %}">Part Types</a></li>
-            <li><a href="{% url 'manufacture' %}">Manufacture</a></li>
-            <li><a href="{% url 'package' %}">Packages</a></li>
-            <li><a href="{% url 'log' %}">Log</a></li>
-            <li><a href="{% url 'digikey' %}">Digikey</a></li>
+            <li><a href="/electroInv/api/manufacture" style="color:#777777;">Manufacture</a></li>
+            <li><a href="/electroInv/api/vendor" style="color:#777777;">Vendor</a></li>
+            <li><a href="/electroInv/api/type" style="color:#777777;">Type</a></li>
+            <li><a href="/electroInv/api/package" style="color:#777777;">Package</a></li>
+            <li><a href="/electroInv/api/part" style="color:#777777;">Part</a></li>
+            <li><a href="/electroInv/api/log" style="color:#777777;">Log</a></li>
 
-            <li><a href="{% url 'octopart' %}">OctoPart</a></li>
         </ul>
     </div>
 
+</div>
 </nav>
 {% endblock %}
