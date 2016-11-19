@@ -160,7 +160,12 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
-    'DEFAULT_FILTER_BACKENDS': ('rest_framework_filters.backends.DjangoFilterBackend',)
+    'DEFAULT_FILTER_BACKENDS': (
+        # 'rest_framework_filters.backends.DjangoFilterBackend',
+        'django_filters.rest_framework.DjangoFilterBackend',
+        # 'url_filter.integrations.drf.DjangoFilterBackend',
+
+    )
 }
 
 INSTALLED_APPS = (
@@ -172,6 +177,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'crispy_forms',
+    'rest_framework_word_filter',
     # 'django_cherrypy',
     'chucho',
     'electroInv',

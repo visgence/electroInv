@@ -1,23 +1,17 @@
 from models import Vendor, Type, Manufacture, Package, Part, Log
-from rest_framework import viewsets
 from serializers import VendorSerializer, TypeSerializer, ManufactureSerializer, PackageSerializer, PartSerializer, LogSerializer, UserSerializer
 from django.contrib.auth.models import User
-from rest_framework import permissions
-from rest_framework import generics
-# from rest_framework import filters
+from rest_framework import permissions, viewsets, generics, filters
 from rest_framework.views import APIView
-from django_filters.rest_framework import DjangoFilterBackend
 import django_filters
-import rest_framework_filters as filters
+from rest_framework_word_filter import FullWordSearchFilter
 
 
 class ManufactureViewSet(viewsets.ModelViewSet):
     queryset = Manufacture.objects.all()
     serializer_class = ManufactureSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
     filter_backends = (filters.SearchFilter,)
-    filter_fields = ('name', 'website')
     search_fields = ('name', 'website')
 
 
@@ -48,6 +42,7 @@ class PartViewSet(viewsets.ModelViewSet):
     queryset = Part.objects.all()
     serializer_class = PartSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    # filter_backends = [DjangoFilterBackend]
     filter_fields = ('part_number', 'value', 'manufacture', 'part_type', 'package', 'location', 'vendor', 'qty', 'price', 'created', 'lastupdate')
 
 
