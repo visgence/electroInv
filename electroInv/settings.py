@@ -1,5 +1,7 @@
 # Django settings for electroInv project.
-import os, sys
+import os
+import sys
+
 APP_PATH = os.path.dirname(os.path.realpath(__file__)) + '/'
 
 DEBUG = True
@@ -157,7 +159,8 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework_filters.backends.DjangoFilterBackend',)
 }
 
 INSTALLED_APPS = (
@@ -168,6 +171,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'crispy_forms',
     # 'django_cherrypy',
     'chucho',
     'electroInv',
