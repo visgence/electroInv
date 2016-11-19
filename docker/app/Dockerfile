@@ -19,6 +19,11 @@ RUN yum install -y postgresql && yum clean all
 
 RUN pip install django==1.10
 RUN pip install djangorestframework
+RUN pip install django-filter
+RUN pip install django-crispy-forms
+RUN pip install djangorestframework-filters
+RUN pip install djangorestframework-word-filter
+RUN pip install django-url-filter
 
 RUN yum install -y make automake gcc gcc-c++ && yum clean all
 RUN yum install -y python-devel && yum clean all
