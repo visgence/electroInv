@@ -1,0 +1,40 @@
+{% extends 'rest_framework/base.html' %}
+
+
+{% block branding %}
+
+<style>
+a{
+    color: 777777;
+}
+</style>
+<nav class="navbar navbar-default" role="navigation">
+    <div style="background: #f8f8f8; border-color: #f8f8f8; t">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle Navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{% url 'index' %}" style="padding-bottom: 0;">
+            <img src="/static/imgs/electroninv_logo.png" height="30px" width="200px"/>
+        </a>
+    </div>
+
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+            <li><a href="/electroInv/api/manufacture" style="color:#777777;">Manufacture</a></li>
+            <li><a href="/electroInv/api/vendor" style="color:#777777;">Vendor</a></li>
+            <li><a href="/electroInv/api/type" style="color:#777777;">Type</a></li>
+            <li><a href="/electroInv/api/package" style="color:#777777;">Package</a></li>
+            <li><a href="/electroInv/api/part" style="color:#777777;">Part</a></li>
+            <li><a href="/electroInv/api/log" style="color:#777777;">Log</a></li>
+
+        </ul>
+    </div>
+
+</div>
+</nav>
+{% endblock %}
