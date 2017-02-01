@@ -90,7 +90,7 @@ class Part(models.Model):
 
     objects = ChuchoManager()
 
-    search_fields = ["part_number", "description", "manufacture", "vendor", "vendor_sku"]
+    search_fields = ["part_number", "description", "manufacture", "vendor", "vendor_sku", "qty", "price"]
 
     def can_view(self, user):
         if not isinstance(user, get_user_model()):
