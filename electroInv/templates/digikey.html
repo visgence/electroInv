@@ -64,9 +64,14 @@
                         .removeClass('text-success').addClass('text-danger');
 
                         $.each(resp.errors, function() {
-                            var li = $('<li>', {
-                                text: this,
+                            var errText = "";
+                            $.each(this, function() {
+                                errText += this;
                             });
+                            var li = $('<li>', {
+                                text: errText
+                            });
+
                             $('#digikey-msg-list').append(li);
                         });
                         return;

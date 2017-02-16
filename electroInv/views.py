@@ -225,8 +225,7 @@ def importDigikey(request):
         error = "You must provide a digikey invoice for importing"
         return HttpResponse(json.dumps({'errors': [error]}), content_type="application/json")
 
-    errors = []
-    invoiceData = parseDigikeyCSV(invoice)
+    invoiceData, errors = parseDigikeyCSV(invoice)
 
     vendor = Vendor.objects.get(name="Digi-Key")
     for data in invoiceData:
