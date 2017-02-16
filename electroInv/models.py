@@ -76,11 +76,11 @@ class Package(models.Model):
 class Part(models.Model):
     part_number = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=100, blank=True)
-    value = models.CharField(max_length=100, blank=True)
+    value = models.CharField(max_length=100, blank=True, null=True)
     manufacture = models.ForeignKey('Manufacture', blank=True, null=True)
     part_type = models.ForeignKey('Type', blank=True, null=True)
     package = models.ForeignKey('Package', blank=True, null=True)
-    location = models.CharField(max_length=100, blank=True)
+    location = models.CharField(max_length=100, blank=True, null=True)
     vendor = models.ForeignKey('Vendor', blank=True, null=True)
     vendor_sku = models.CharField(max_length=100, blank=True)
     qty = models.IntegerField(default=0) #Set default to 0
