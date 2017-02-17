@@ -21,7 +21,7 @@ def parseDigikeyCSV(strdata):
             row['vendor_sku'] = d['Part Number'].upper()
             row['qty'] = int(d['Quantity'])
             row['price'] = float(d['Unit Price'].replace("$", ''))
-            row['part_number'] = d['Part Number']
+            row['part_number'] = d['Manufacturer Part Number']
 
             data.append(row)
     except Exception, e:
