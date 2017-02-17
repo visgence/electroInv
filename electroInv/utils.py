@@ -15,11 +15,13 @@ def parseDigikeyCSV(strdata):
     dr = csv.DictReader(f, delimiter=',')
     try:
         for d in dr:
+            print json.dumps(d, indent=2)
             row = {}
             row['description'] = d['Description']
             row['vendor_sku'] = d['Part Number'].upper()
             row['qty'] = int(d['Quantity'])
             row['price'] = float(d['Unit Price'].replace("$", ''))
+            row['part_number'] = d['Part Number']
 
             data.append(row)
     except Exception, e:
