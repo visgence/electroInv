@@ -224,6 +224,9 @@ def importDigikey(request):
     if invoice is None or invoice == '':
         error = "You must provide a digikey invoice for importing"
         return HttpResponse(json.dumps({'errors': [error]}), content_type="application/json")
+    if invoiceNumber is None or invoiceNumber == '':
+        error = "You must provide a digikey invoiceNumber for importing"
+        return HttpResponse(json.dumps({'errors': [error]}), content_type="application/json")
 
     invoiceData, errors = parseDigikeyCSV(invoice)
 
