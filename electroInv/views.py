@@ -1,7 +1,7 @@
 
 # Local Imports
 from electroInv.utils import parseDigikeyCSV
-from electroInv.models import Part, Vendor, Manufacture
+from electroInv.models import Part, Vendor, Manufacture, Log
 
 #   System imports
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, HttpResponseBadRequest
@@ -225,8 +225,16 @@ def importDigikey(request):
         error = "You must provide a digikey invoice for importing"
         return HttpResponse(json.dumps({'errors': [error]}), content_type="application/json")
 
-    errors = []
-    invoiceData = parseDigikeyCSV(invoice)
+    if invoiceNumber is None or invoiceNumber == '':
+        error = "You must provide a digikey invoiceNumber for importing"
+        return HttpResponse(json.dumps({'errors': [error]}), content_type="application/json")
+
+    previousLog = Log.objects.filter(invoice=invoiceNumber)
+    if(len(previousLog.all()) > 0):
+        error = "Invoice number already exists, data may have already been imported."
+        return HttpResponse(json.dumps({'errors': [error]}), content_type="application/json")
+
+    invoiceData, errors = parseDigikeyCSV(invoice)
 
     vendor = Vendor.objects.get(name="Digi-Key")
     for data in invoiceData:
