@@ -17,15 +17,34 @@ def parseDigikeyCSV(strdata):
         for d in dr:
             print json.dumps(d, indent=2)
             row = {}
-            row['description'] = d['Description']
-            row['vendor_sku'] = d['Part Number'].upper()
-            row['qty'] = int(d['Quantity'])
-            row['price'] = float(d['Unit Price'].replace("$", ''))
-            row['part_number'] = d['Manufacturer Part Number']
+            if 'Description' in d:
+                row['description'] = d['Description']
+            else:
+                errors.append('Description field is missing')
+
+            if 'Part Number' in d:
+                row['vendor_sku'] = d['Part Number'].upper()
+            else:
+                errors.append('Part Number field is missing')
+
+            if 'Quantity' in d:
+                row['qty'] = int(d['Quantity'])
+            else:
+                errors.append('Quantity field is missing')
+
+            if 'Unit Price USD' in d:
+                row['price'] = float(d['Unit Price USD'].replace(" $", ""))
+            else:
+                errors.append('Unit Price USD field is missing')
+
+            if 'Manufacturer Part Number' in d:
+                row['part_number'] = d['Manufacturer Part Number']
+            else:
+                errors.append('Manufacturer Part Number field is missing')
 
             data.append(row)
     except Exception, e:
-        errors.append(d)
+        errors.append(e)
 
     return data, errors
 
