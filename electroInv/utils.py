@@ -39,8 +39,6 @@ def parseDigikeyCSV(strdata):
 
             if 'Manufacturer Part Number' in d:
                 row['part_number'] = d['Manufacturer Part Number']
-            else:
-                errors.append('Manufacturer Part Number field is missing')
 
             data.append(row)
     except Exception, e:
