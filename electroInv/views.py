@@ -217,7 +217,6 @@ def importDigikey(request):
     response = check_access(request)
     if response is None:
         return HttpResponseRedirect('/electroInv/login-page/')
-
     invoice = request.POST.get('invoice', None)
     invoiceNumber = request.POST.get('invoiceNumber', '')
 
@@ -235,6 +234,8 @@ def importDigikey(request):
         return HttpResponse(json.dumps({'errors': [error]}), content_type="application/json")
 
     invoiceData, errors = parseDigikeyCSV(invoice)
+    if errors:
+        return HttpResponse(json.dumps({'errors': errors}), content_type="application/json")
 
     vendor = Vendor.objects.get(name="Digi-Key")
     for data in invoiceData:
