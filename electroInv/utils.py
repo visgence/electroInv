@@ -15,7 +15,7 @@ def parseDigikeyCSV(strdata):
     dr = csv.DictReader(f, delimiter=',')
     try:
         for d in dr:
-            print json.dumps(d, indent=2)
+            print(json.dumps(d, indent=2))
             row = {}
             if 'Description' in d:
                 row['description'] = d['Description']
@@ -34,7 +34,6 @@ def parseDigikeyCSV(strdata):
 
             if 'Unit Price' in d:
                 row['price'] = float(d['Unit Price'].strip().replace("$", ""))
-                assert 
             else:
                 errors.append('Unit Price USD field is missing')
 
@@ -42,7 +41,7 @@ def parseDigikeyCSV(strdata):
                 row['part_number'] = d['Manufacturer Part Number']
 
             data.append(row)
-    except Exception, e:
+    except Exception as e:
         errors.append(str(e))
 
     return data, errors
