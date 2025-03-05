@@ -33,7 +33,8 @@ def parseDigikeyCSV(strdata):
                 errors.append('Quantity field is missing')
 
             if 'Unit Price' in d:
-                row['price'] = float(d['Unit Price'].replace(" $", ""))
+                row['price'] = float(d['Unit Price'].strip().replace("$", ""))
+                assert 
             else:
                 errors.append('Unit Price USD field is missing')
 
@@ -42,7 +43,7 @@ def parseDigikeyCSV(strdata):
 
             data.append(row)
     except Exception, e:
-        errors.append(e)
+        errors.append(str(e))
 
     return data, errors
 
