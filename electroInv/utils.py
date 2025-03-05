@@ -22,8 +22,8 @@ def parseDigikeyCSV(strdata):
             else:
                 errors.append('Description field is missing')
 
-            if 'Part Number' in d:
-                row['vendor_sku'] = d['Part Number'].upper()
+            if 'DigiKey Part #' in d:
+                row['vendor_sku'] = d['DigiKey Part #'].upper()
             else:
                 errors.append('Part Number field is missing')
 
@@ -32,8 +32,8 @@ def parseDigikeyCSV(strdata):
             else:
                 errors.append('Quantity field is missing')
 
-            if 'Unit Price USD' in d:
-                row['price'] = float(d['Unit Price USD'].replace(" $", ""))
+            if 'Unit Price' in d:
+                row['price'] = float(d['Unit Price'].replace(" $", ""))
             else:
                 errors.append('Unit Price USD field is missing')
 
